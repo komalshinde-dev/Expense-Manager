@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://expense-manager-backend.onrender.com/api',
+  baseURL: 'https://expense-manager-backend-31gm.onrender.com/api',
 });
 
 API.interceptors.request.use((req) => {
