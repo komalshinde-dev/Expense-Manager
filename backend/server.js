@@ -25,7 +25,7 @@ const server = http.createServer(app);
 // 🔥 Socket.IO for real-time updates
 const io = new Server(server, {
   cors: {
-    origin: 'https://expense-manager-backend.onrender.com', // frontend URL
+    origin: 'http://localhost:3000', // frontend URL
     methods: ['GET', 'POST'],
   },
 });
