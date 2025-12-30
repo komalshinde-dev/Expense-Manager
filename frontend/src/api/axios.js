@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "http://expense-manager-backend.onrender.com/api",
 });
 
 // 🔥 ATTACH TOKEN TO EVERY REQUEST
