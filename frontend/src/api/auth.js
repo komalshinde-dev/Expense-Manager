@@ -1,29 +1,42 @@
-import axios from './axios';
+import axios from 'axios';
 
+const AUTH_URL = 'https://expense-manager-backend-31gm.onrender.com/api';
+
+// Register user
 export const register = async (userData) => {
-  const response = await axios.post('/auth/register', userData);
-  if (response.data.token) {
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('user', JSON.stringify(response.data));
+  const res = await axios.post(`${AUTH_URL}/register`, userData, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+  if (res.data.token) {
+    localStorage.setItem('user', JSON.stringify(res.data));
+    localStorage.setItem('token', res.data.token);
   }
-  return response.data;
+  return res.data;
 };
 
+// Login user
 export const login = async (userData) => {
-  const response = await axios.post('/auth/login', userData);
-  if (response.data.token) {
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('user', JSON.stringify(response.data));
+  const res = await axios.post(`${AUTH_URL}/login`, userData, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+  if (res.data.token) {
+    localStorage.setItem('user', JSON.stringify(res.data));
+    localStorage.setItem('token', res.data.token);
   }
-  return response.data;
+  return res.data;
 };
 
+// Logout
 export const logout = () => {
-  localStorage.removeItem('token');
   localStorage.removeItem('user');
+  localStorage.removeItem('token');
 };
 
+// Get current user (authenticated route)
 export const getCurrentUser = async () => {
-  const response = await axios.get('/auth/me');
-  return response.data;
+  const token = localStorage.getItem('token');
+  const res = await axios.get(`${AUTH_URL}/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
 };
