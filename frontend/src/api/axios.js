@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: "https://expense-manager-backend-31gm.onrender.com/api",
-  withCredentials: true,
 });
 
 API.interceptors.request.use((req) => {
@@ -14,10 +13,3 @@ API.interceptors.request.use((req) => {
 });
 
 export default API;
-
-
-// Example functions using this instance:
-export const fetchStock = (symbol) => API.get(`/stocks/${symbol}`);
-export const getPortfolio = () => API.get('/portfolios');
-export const addStock = (data) => API.post('/portfolios', data);
-export const removeStock = (id) => API.delete(`/portfolios/${id}`);
