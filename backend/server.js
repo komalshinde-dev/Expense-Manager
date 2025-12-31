@@ -32,10 +32,14 @@ app.set('io', io);
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: [
+      "http://localhost:3000",
+      "https://expense-manager-teal-xi.vercel.app"
+    ],
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

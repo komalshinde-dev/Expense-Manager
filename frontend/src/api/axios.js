@@ -1,20 +1,20 @@
-import axios from 'axios';
+import axios from "axios";
 
-// Axios instance for authenticated requests
 const API = axios.create({
-  baseURL: 'https://expense-manager-backend-31gm.onrender.com/api',
+  baseURL: "https://expense-manager-backend-31gm.onrender.com/api",
+  withCredentials: true,
 });
 
-// Add Authorization header if token exists
 API.interceptors.request.use((req) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    req.headers.Authorization = `Bearer ${token}`;
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  if (userInfo?.token) {
+    req.headers.Authorization = `Bearer ${userInfo.token}`;
   }
   return req;
 });
 
 export default API;
+
 
 // Example functions using this instance:
 export const fetchStock = (symbol) => API.get(`/stocks/${symbol}`);
