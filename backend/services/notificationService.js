@@ -5,6 +5,12 @@ class NotificationService {
     this.apiKey = process.env.BREVO_API_KEY;
     this.fromEmail = process.env.SMTP_FROM_EMAIL;
     this.fromName = process.env.SMTP_FROM_NAME;
+
+    if (!this.apiKey) {
+      console.error('❌ BREVO_API_KEY is missing');
+    } else {
+      console.log('✅ Brevo API key loaded');
+    }
   }
 
   async sendReminder(reminder, user) {
@@ -20,7 +26,7 @@ class NotificationService {
       return { success: true };
 
     } catch (error) {
-      console.error('❌ Reminder notification failed:', error.message);
+      console.error('❌ Reminder notification failed:', error.response?.data || error.message);
       return { success: false, error: error.message };
     }
   }
@@ -40,7 +46,11 @@ class NotificationService {
         <li><b>Amount:</b> ${formattedAmount}</li>
         <li><b>Due Date:</b> ${formattedDate}</li>
       </ul>
-      <a href="${process.env.FRONTEND_URL}/reminders">View Reminders</a>
+      <p>
+        <a href="${process.env.FRONTEND_URL}/reminders">
+          View Reminders
+        </a>
+      </p>
     `;
 
     await axios.post(
@@ -56,8 +66,9 @@ class NotificationService {
       },
       {
         headers: {
-          'api-key': this.apiKey,
-          'Content-Type': 'application/json',
+          'api-key': this.apiKey,          // 🔴 MUST be api-key
+          'accept': 'application/json',
+          'content-type': 'application/json',
         },
       }
     );
@@ -67,3 +78,4 @@ class NotificationService {
 }
 
 module.exports = new NotificationService();
+
