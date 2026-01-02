@@ -42,10 +42,7 @@ const Dashboard = () => {
   const [showOCRModal, setShowOCRModal] = useState(false);
 
   const netBalance = totalIncome - totalExpenses;
-
-  // Initialize adaptive theming
-  useAdaptiveTheme();
-
+  
   // Keyboard shortcuts integration
   const { showTooltip, hideTooltip } = useKeyboardShortcuts({
     openCommandPalette: () => {
@@ -143,9 +140,6 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
-
-      {/* Theme Status Indicator */}
-      <ThemeStatusIndicator />
 
       {/* Keyboard Shortcuts Tooltip - Temporarily Disabled */}
       {/* {showTooltip && <KeyboardShortcutsTooltip onClose={hideTooltip} />} */}
