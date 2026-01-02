@@ -210,7 +210,7 @@ const Dashboard = () => {
                   onClick={() => setIsExpenseModalOpen(true)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  className="glass backdrop-blur-sm bg-white/90 text-teal-600 px-6 py-2.5 rounded-lg hover:bg-white hover:shadow-glass transition-all duration-200 font-semibold border border-white/30 shadow-button hover:shadow-button-hover"
+                  className="glass backdrop-blur-sm bg-gradient-primary !text-white px-6 py-2.5 rounded-lg transition-all duration-200 font-semibold border border-white/20 shadow-button hover:shadow-glow"
                 >
                   + Add Expense
                 </motion.button>
