@@ -4,7 +4,8 @@ const API_URL = 'https://expense-manager-backend-31gm.onrender.com/api/reminders
 
 // Get auth token from localStorage
 const getAuthHeader = () => {
-  const token = localStorage.getItem('token');
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const token = userInfo?.token;
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
