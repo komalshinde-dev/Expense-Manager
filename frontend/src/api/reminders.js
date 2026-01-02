@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://expense-manager-backend-31gm.onrender.com/reminders';
+const API_URL = 'https://expense-manager-backend-31gm.onrender.com/api/reminders';
 
 // Get auth token from localStorage
 const getAuthHeader = () => {
