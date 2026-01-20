@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "../api/axios";
 import { FaChartLine } from "react-icons/fa";
 import {
@@ -16,6 +16,16 @@ export default function StockAnalyzer() {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isDark, setIsDark] = useState(document.documentElement.classList.contains('dark'));
+
+  // Listen for theme changes
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
 
   const fetchStock = async () => {
     try {
@@ -99,9 +109,25 @@ export default function StockAnalyzer() {
           <div className="glass p-6 rounded-xl mb-6 bg-white dark:bg-white/10">
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={chartData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
+                <XAxis 
+                  dataKey="name" 
+                  tick={{ fill: isDark ? '#ffffff' : '#1f2937' }} 
+                  stroke={isDark ? '#ffffff' : '#1f2937'} 
+                />
+                <YAxis 
+                  tick={{ fill: isDark ? '#ffffff' : '#1f2937' }} 
+                  stroke={isDark ? '#ffffff' : '#1f2937'} 
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: isDark ? 'rgba(30, 41, 59, 0.95)' : 'rgba(255, 255, 255, 0.95)', 
+                    border: isDark ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 0, 0, 0.1)',
+                    borderRadius: '8px',
+                    color: isDark ? '#ffffff' : '#1f2937'
+                  }}
+                  labelStyle={{ color: isDark ? '#ffffff' : '#1f2937' }}
+                  itemStyle={{ color: isDark ? '#ffffff' : '#1f2937' }}
+                />
                 <Line dataKey="price" stroke="#22d3ee" strokeWidth={3} />
               </LineChart>
             </ResponsiveContainer>

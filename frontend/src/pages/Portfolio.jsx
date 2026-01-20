@@ -36,6 +36,7 @@ const Portfolio = () => {
   const [quantity, setQuantity] = useState('');
   const [buyPrice, setBuyPrice] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isDark, setIsDark] = useState(document.documentElement.classList.contains('dark'));
 
   // 🔹 Load portfolio
   const loadPortfolio = async () => {
@@ -46,6 +47,15 @@ const Portfolio = () => {
 
   useEffect(() => {
     loadPortfolio();
+  }, []);
+
+  // 🔹 Listen for theme changes
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
   }, []);
 
   // 🔹 Add stock
@@ -87,6 +97,44 @@ const Portfolio = () => {
         borderColor: '#22c55e',
       },
     ],
+  };
+
+  // 🔹 Chart options for light/dark theme compatibility
+  const textColor = isDark ? '#ffffff' : '#1f2937';
+  const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          color: textColor,
+        },
+      },
+      tooltip: {
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        backgroundColor: isDark ? 'rgba(30, 41, 59, 0.95)' : 'rgba(0, 0, 0, 0.8)',
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: textColor,
+        },
+        grid: {
+          color: gridColor,
+        },
+      },
+      y: {
+        ticks: {
+          color: textColor,
+        },
+        grid: {
+          color: gridColor,
+        },
+      },
+    },
   };
 
   return (
@@ -200,7 +248,7 @@ const Portfolio = () => {
       {/* Chart */}
       {stocks.length > 0 && (
         <div className="glass p-6 rounded-xl bg-white dark:bg-white/10">
-          <Line data={chartData} />
+          <Line data={chartData} options={chartOptions} />
         </div>
       )}
     </div>

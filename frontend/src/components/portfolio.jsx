@@ -88,6 +88,40 @@ const Portfolio = () => {
     ],
   };
 
+  // 🔹 Chart options for dark theme visibility
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#ffffff',
+        },
+      },
+      tooltip: {
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#ffffff',
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)',
+        },
+      },
+      y: {
+        ticks: {
+          color: '#ffffff',
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)',
+        },
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen p-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       <h1 className="text-3xl font-bold mb-6">💼 My Portfolio</h1>
@@ -190,7 +224,7 @@ const Portfolio = () => {
       {/* Chart */}
       {stocks.length > 0 && (
         <div className="glass p-6 rounded-xl">
-          <Line data={chartData} />
+          <Line data={chartData} options={chartOptions} />
         </div>
       )}
     </div>
