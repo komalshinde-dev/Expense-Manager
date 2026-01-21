@@ -95,27 +95,27 @@ const ExportDropdown = ({ filters = {} }) => {
       {isOpen && !loading && (
         <>
           <div
-            className="fixed inset-0 z-10"
+            className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl z-20 border border-gray-200 dark:border-gray-700">
+          <div className="absolute left-0 bottom-full mb-2 w-52 bg-white dark:bg-gray-800 rounded-lg shadow-2xl z-50 border-2 border-gray-200 dark:border-gray-600">
             <button
               onClick={handleExportPDF}
-              className="w-full text-left px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 text-gray-700 dark:text-gray-300 rounded-t-lg transition"
+              className="w-full text-left px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/30 flex items-center gap-3 text-gray-800 dark:text-white rounded-t-lg transition-all duration-200"
             >
               <svg className="w-5 h-5 text-red-600 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
               </svg>
-              <span className="font-medium">Export as PDF</span>
+              <span className="font-semibold">📄 Export as PDF</span>
             </button>
             <button
               onClick={handleExportCSV}
-              className="w-full text-left px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 text-gray-700 dark:text-gray-300 rounded-b-lg transition border-t dark:border-gray-700"
+              className="w-full text-left px-4 py-3 hover:bg-green-50 dark:hover:bg-green-900/30 flex items-center gap-3 text-gray-800 dark:text-white rounded-b-lg transition-all duration-200 border-t-2 border-gray-200 dark:border-gray-600"
             >
               <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
               </svg>
-              <span className="font-medium">Export as CSV</span>
+              <span className="font-semibold">📊 Export as CSV</span>
             </button>
           </div>
         </>

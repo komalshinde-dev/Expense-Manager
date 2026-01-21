@@ -160,7 +160,7 @@ const Dashboard = () => {
         <DynamicGreeting />
 
         {/* Header Section - Full Width */}
-        <div className="relative overflow-hidden rounded-2xl mb-6 group">
+        <div className="relative rounded-2xl mb-6 group">
           {/* Multi-layer gradient background */}
           <div className="absolute inset-0 bg-gradient-primary"></div>
           <div className="absolute inset-0 bg-radial-highlight opacity-40 group-hover:opacity-50 transition-opacity duration-300"></div>
