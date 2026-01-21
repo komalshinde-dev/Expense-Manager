@@ -212,56 +212,95 @@ const SIPTracker = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-8"
           >
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+              <span>📊</span>
               Portfolio Allocation
             </h2>
-            <div className="flex flex-col lg:flex-row items-center gap-8">
-              <div className="w-full lg:w-1/2 h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={sips.map(sip => ({
-                        name: sip.name,
-                        value: sip.currentValue || sip.totalInvested
-                      }))}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                      outerRadius={85}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {sips.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip formatter={(value) => formatCurrency(value)} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="w-full lg:w-1/2 grid grid-cols-1 gap-3">
-                {sips.map((sip, index) => (
-                  <div key={sip._id} className="flex items-center gap-3">
-                    <div 
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                    ></div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {sip.name}
-                      </p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {sip.fundSymbol}
-                      </p>
-                    </div>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">
-                      {formatCurrency(sip.currentValue || sip.totalInvested)}
-                    </p>
+            {(() => {
+              // Calculate total for percentage
+              const totalValue = sips.reduce((sum, sip) => sum + (sip.currentValue || sip.totalInvested || sip.monthlyAmount || 0), 0);
+              const pieData = sips.map(sip => ({
+                name: sip.name,
+                value: sip.currentValue || sip.totalInvested || sip.monthlyAmount || 1,
+                fundSymbol: sip.fundSymbol
+              }));
+              
+              return (
+                <div className="flex flex-col lg:flex-row items-center gap-8">
+                  <div className="w-full lg:w-1/2 h-80 flex items-center justify-center">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={pieData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          label={({ percent }) => `${(percent * 100).toFixed(1)}%`}
+                          outerRadius={100}
+                          innerRadius={60}
+                          fill="#8884d8"
+                          dataKey="value"
+                          paddingAngle={2}
+                        >
+                          {sips.map((entry, index) => (
+                            <Cell 
+                              key={`cell-${index}`} 
+                              fill={COLORS[index % COLORS.length]}
+                              className="hover:opacity-80 transition-opacity cursor-pointer"
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          formatter={(value) => formatCurrency(value)}
+                          contentStyle={{
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            border: 'none',
+                            borderRadius: '8px',
+                            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
-                ))}
-              </div>
-            </div>
+                  <div className="w-full lg:w-1/2 grid grid-cols-1 gap-3">
+                    {sips.map((sip, index) => {
+                      const sipValue = sip.currentValue || sip.totalInvested || sip.monthlyAmount || 0;
+                      const percentage = totalValue > 0 ? ((sipValue / totalValue) * 100).toFixed(1) : '0.0';
+                      return (
+                        <motion.div
+                          key={sip._id}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                        >
+                          <div 
+                            className="w-4 h-4 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                          ></div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                              {sip.name}
+                            </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 truncate">
+                              {sip.fundSymbol}
+                            </p>
+                          </div>
+                          <div className="text-right flex-shrink-0">
+                            <p className="text-sm font-bold text-gray-900 dark:text-white">
+                              {formatCurrency(sipValue)}
+                            </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400">
+                              {percentage}%
+                            </p>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })()}
           </motion.div>
         )}
 

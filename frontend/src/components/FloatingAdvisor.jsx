@@ -182,24 +182,6 @@ You can ask me about:
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Suggested Questions */}
-            {messages.length <= 2 && !isLoading && (
-              <div className="p-3 border-t">
-                <p className="text-xs text-gray-500 mb-2">💡 Try asking:</p>
-                <div className="flex flex-wrap gap-2">
-                  {suggestedQuestions.map((q, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setInput(q)}
-                      className="text-xs px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200"
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Input */}
             <form
               onSubmit={handleSendMessage}
